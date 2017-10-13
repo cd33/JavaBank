@@ -1,15 +1,38 @@
 package fr.ynovBank.javaBankDiallo.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Client {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int clientID;
 	private String nom;
 	private String prenom;
-	private int clientID;
 	private String passwd;
 	private String login;
 	
+	@OneToMany(mappedBy = "client", cascade=CascadeType.ALL)
+	private List<Compte> comptes;
+	
 	public String toString() {
-		return "ID : "+clientID+", Nom : "+nom+", Prénom : "+prenom+", Login : "+login;
+		String result = "ID : "+clientID+", Nom : "+nom+", Prénom : "+prenom+", Login : "+login;
+		/*for (Compte c : comptes) {
+			result += c.toString();
+		}*/
+		return result;
+	}
+	
+	public Client() {
+		
 	}
 	
 	public String getNom() {
@@ -42,7 +65,11 @@ public class Client {
 	public void setLogin(String login) {
 		this.login = login;
 	}
+	public List<Compte> getComptes() {
+		return comptes;
+	}
+	public void setComptes(List<Compte> comptes) {
+		this.comptes = comptes;
+	}
 	
-	
-
 }
