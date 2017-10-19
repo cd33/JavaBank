@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,14 +21,11 @@ public class Client {
 	private String passwd;
 	private String login;
 	
-	@OneToMany(mappedBy = "client", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "client", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Compte> comptes;
 	
 	public String toString() {
 		String result = "ID : "+clientID+", Nom : "+nom+", Prénom : "+prenom+", Login : "+login;
-		/*for (Compte c : comptes) {
-			result += c.toString();
-		}*/
 		return result;
 	}
 	

@@ -1,11 +1,8 @@
 package fr.ynovBank.javaBankDiallo.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceUtil;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,24 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import fr.ynovBank.javaBankDiallo.InitJPA;
 import fr.ynovBank.javaBankDiallo.dao.ClientManager;
 import fr.ynovBank.javaBankDiallo.model.Client;
 import fr.ynovBank.javaBankDiallo.model.Compte;
 
-
-@WebServlet("/Comptes")
-public class ComptesServlet extends HttpServlet {
+@WebServlet("/Transactions")
+public class TransactionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = LogManager.getLogger(InitJPA.class);
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ComptesServlet() {
+    public TransactionServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -49,9 +40,11 @@ public class ComptesServlet extends HttpServlet {
 		logger.debug("N°2 : is comptes loaded ? "+util.isLoaded(client.getComptes()));*/
 		
 		request.setAttribute("client", client);
-		request.setAttribute("listeComptes", client.getComptes());
+		List<Compte> listeComptes = client.getComptes();
+		request.setAttribute("Compte", listeComptes.get(0));
+		request.setAttribute("listeTransactions", listeComptes.get(0).getTransactions());
 		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/comptes.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/transactions.jsp");
 		dispatcher.forward(request, response);
 	}
 

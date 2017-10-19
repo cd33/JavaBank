@@ -8,10 +8,8 @@
 </head>
 <body>
 <ul>
-	<li><a href="/Client">Mes Paramètres</a></li>
 	<li><a href="/Compte">Mes Comptes</a></li>
-	<li><a href="/Transaction">Transactions</a>
-	<li><a href="/">Déconnection</a></li>
+	<li><a href="/">Déconnexion</a></li>
 </ul>
 
 </body>

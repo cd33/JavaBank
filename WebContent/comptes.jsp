@@ -9,12 +9,11 @@
     <body>
     <%@ include file="/menu.jsp" %>
     
-        <p>Bienvenue sur le site de Carlito !</p>
-	  
-		<c:forEach items="${clients}" var="client">
-		   <p><c:out value="${client}"/></p>
-		   <p>${client.nom}</p>
-		</c:forEach>    
+    <p>Bienvenue ${client.prenom} ${client.nom}</p>
+		
+	<c:forEach items="${listeComptes}" var="compte">
+	   <p>Compte : ${compte.libelle}</p>
+	</c:forEach>
         
     </body>
 </html>
