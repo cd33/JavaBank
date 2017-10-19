@@ -1,5 +1,7 @@
 fr\ynovBank\javaBankDiallo\model\Transaction.class
 fr\ynovBank\javaBankDiallo\TestJDBC.class
+fr\ynovBank\javaBankDiallo\servlet\Name.class
+fr\ynovBank\javaBankDiallo\servlet\AccountServlet.class
 fr\ynovBank\javaBankDiallo\TestJPA.class
 fr\ynovBank\javaBankDiallo\model\Compte.class
 fr\ynovBank\javaBankDiallo\model\Client.class
