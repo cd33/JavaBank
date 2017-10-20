@@ -1,8 +1,11 @@
+D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\servlet\VirementsServlet.java
+D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\InitJPA.java
 D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\model\Transaction.java
 D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\model\Compte.java
+D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\dao\FactorySingleton.java
 D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\TestJPA.java
-D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\servlet\AccountServlet.java
 D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\model\Client.java
-D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\TestJDBC.java
+D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\servlet\ComptesServlet.java
+D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\servlet\TransactionServlet.java
 D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\dao\ClientManager.java
-D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\servlet\Name.java
+D:\DOCUMENTS\ECLIPSE\javaBankDiallo\src\main\java\fr\ynovBank\javaBankDiallo\servlet\LoginServlet.java

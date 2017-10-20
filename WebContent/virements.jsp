@@ -12,6 +12,7 @@
     <p>Bienvenue ${client.prenom} ${client.nom}</p>   
 	
 	<p>Mes Comptes</p>
+	
 	<FORM>
 	<SELECT name="Comptes Émetteur" size="1">
 	<c:forEach items="${comptesEme}" var="compteEme">
@@ -21,6 +22,7 @@
     </FORM>
     
     <p>Compte Destinataire</p>
+    
     <FORM>
 	<SELECT name="Comptes Destinataire" size="1">
 	<c:forEach items="${clients}" var="client2">
@@ -30,6 +32,17 @@
 	</c:forEach>
 	</SELECT>
     </FORM>
+    
+    <form method="post">
+          <label for="amount"><fmt:message key="bank.label.amount" />:</label>
+          <input type="number" id="amount" name="amount">
+          <br>
+          <label for="wording"><fmt:message key="bank.label.wording" />:</label>
+          <input type="text" id="wording" name="wording">
+          <br>
+          <fmt:message key="transfer.button.confirm" var="buttonValue" />
+          <input type="submit" name="submit" value="${buttonValue}">
+      </form>
     	
 </body>
 </html>

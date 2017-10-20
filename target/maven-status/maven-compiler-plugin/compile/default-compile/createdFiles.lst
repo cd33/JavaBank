@@ -1,8 +1,11 @@
-fr\ynovBank\javaBankDiallo\model\Transaction.class
-fr\ynovBank\javaBankDiallo\TestJDBC.class
-fr\ynovBank\javaBankDiallo\servlet\Name.class
-fr\ynovBank\javaBankDiallo\servlet\AccountServlet.class
+fr\ynovBank\javaBankDiallo\servlet\LoginServlet.class
+fr\ynovBank\javaBankDiallo\dao\FactorySingleton.class
+fr\ynovBank\javaBankDiallo\servlet\ComptesServlet.class
+fr\ynovBank\javaBankDiallo\servlet\TransactionServlet.class
 fr\ynovBank\javaBankDiallo\TestJPA.class
 fr\ynovBank\javaBankDiallo\model\Compte.class
 fr\ynovBank\javaBankDiallo\model\Client.class
 fr\ynovBank\javaBankDiallo\dao\ClientManager.class
+fr\ynovBank\javaBankDiallo\servlet\VirementsServlet.class
+fr\ynovBank\javaBankDiallo\model\Transaction.class
+fr\ynovBank\javaBankDiallo\InitJPA.class
