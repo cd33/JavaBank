@@ -1,11 +1,8 @@
 package fr.ynovBank.javaBankDiallo.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceUtil;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,24 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import fr.ynovBank.javaBankDiallo.InitJPA;
 import fr.ynovBank.javaBankDiallo.dao.ClientManager;
 import fr.ynovBank.javaBankDiallo.model.Client;
 import fr.ynovBank.javaBankDiallo.model.Compte;
 
-
-@WebServlet("/Comptes")
-public class ComptesServlet extends HttpServlet {
+@WebServlet("/Virements")
+public class VirementsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = LogManager.getLogger(InitJPA.class);
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ComptesServlet() {
+    public VirementsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,22 +30,28 @@ public class ComptesServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//PersistenceUtil util = Persistence.getPersistenceUtil();
-		
-		Client client = ClientManager.getClientByID(1);
-		
-		/*logger.debug("is client loaded ? "+util.isLoaded(client));
-		logger.debug("is comptes loaded ? "+util.isLoaded(client.getComptes()));
-		client.getComptes().size();
-		logger.debug("N°2 : is comptes loaded ? "+util.isLoaded(client.getComptes()));*/
-		
-		request.setAttribute("client", client);
-		request.setAttribute("comptes", client.getComptes());
-		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/comptes.jsp");
-		dispatcher.forward(request, response);
-	}
 
+		Client client = ClientManager.getClientByID(1);
+		request.setAttribute("client", client);
+		List<Compte> comptesEme = client.getComptes();
+		request.setAttribute("comptesEme", comptesEme);
+		List<Compte> comptesDes = ClientManager.getComptes();
+		//comptesDes.removeAll(comptesEme);
+		request.setAttribute("comptesDes", comptesDes);
+		//List<Compte> comptesDes = ClientManager.getOtherAccount(clientID, account)
+		
+		List<Client> clients = ClientManager.getClients();
+		request.setAttribute("clients", clients);
+		
+		for (Client client2 : clients) {
+			client2.getComptes();
+		}
+		
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/virements.jsp");
+		dispatcher.forward(request, response);
+		
+	}
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

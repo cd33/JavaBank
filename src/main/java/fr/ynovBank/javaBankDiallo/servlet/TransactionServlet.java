@@ -43,6 +43,7 @@ public class TransactionServlet extends HttpServlet {
 		List<Compte> listeComptes = client.getComptes();
 		request.setAttribute("Compte", listeComptes.get(0));
 		request.setAttribute("listeTransactions", listeComptes.get(0).getTransactions());
+		request.setAttribute("Solde", ClientManager.getSolde(1, 0));
 		
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/transactions.jsp");
 		dispatcher.forward(request, response);
