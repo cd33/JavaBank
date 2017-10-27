@@ -20,31 +20,23 @@
 		
 		<br><br>
 		
-		<c:if test="${ !empty sessionScope.sessionClient.login && !empty sessionScope.sessionClient.passwd}">
-			<fmt:message key="bank.label.welcome"/> ${sessionScope.sessionClient.login}
-		</c:if>
-		
-		<br><br>
-		
 		<form method="post" action="login">
 			<fieldset>
 				<legend><fmt:message key="login.button.submit"/></legend>
 				
 			    <label for="login"><fmt:message key="login.label.login" />:</label>
 			    <input type="text" id="login" name="login" size="20" maxlength="60" >
-			    <span class="error">${logM.errors['login']}</span>
 	            <br/>
 	           
-			    <label for="password"><fmt:message key="login.label.password" />:</label>
-			    <input type="password" id="password" name="password" value="" size="20" maxlength="20" />
-	            <span class="error">${logM.errors['passwd']}</span>
+			    <label for="passwd"><fmt:message key="login.label.password" />:</label>
+			    <input type="password" id="passwd" name="passwd" value="" size="20" maxlength="20" />
 	            <br/>
 	            
 			    <fmt:message key="login.button.submit" var="buttonValue" />
 			    <input type="submit" name="submit" value="${buttonValue}">
 			    <br/>
 			    
-			    <p class="${empty logM.errors ? 'success' : 'error'}">${logM.result}</p>
+			    <p class="error">${error}</p>
             </fieldset>
 		</form>
 

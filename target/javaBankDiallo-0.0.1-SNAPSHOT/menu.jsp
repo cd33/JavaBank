@@ -7,24 +7,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="${language}">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link type="text/css" rel="stylesheet" href="CSS/styles.css">
+<link rel="stylesheet" href="CSS/styles.css"/>
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 </head>
 <body>
 <div id='cssmenu'>
 	<ul>
-		<li><a href="/Comptes">Mes Comptes</a></li>
-		<li><a href="/Virements">Virements</a></li>
-		<li><a href="/">Déconnexion</a></li>
+		<li><a href="/accounts"><fmt:message key="menu.label.myAccounts"/></a></li>
+		<li><a href="/transfer"><fmt:message key="menu.label.transfers"/></a></li>
+		<li><a href="/logout"><fmt:message key="menu.label.logout"/></a></li>
+		<li style="float : right">
+		<form>
+			<select id="language" name="language" onchange="submit()">
+		   		<option value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
+		      	<option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+	    	</select>
+		</form>
+		</li>
 	</ul>
 </div>
-<form>
-    <select id="language" name="language" onchange="submit()">
-   		<option value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
-      	<option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-    </select>
-</form>
 
 </body>
 </html>

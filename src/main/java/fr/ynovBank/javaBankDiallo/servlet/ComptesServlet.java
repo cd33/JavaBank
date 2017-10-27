@@ -3,8 +3,11 @@ package fr.ynovBank.javaBankDiallo.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUtil;
 import javax.servlet.RequestDispatcher;
@@ -16,9 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import fr.ynovBank.javaBankDiallo.InitJPA;
 import fr.ynovBank.javaBankDiallo.dao.ClientManager;
@@ -43,34 +43,32 @@ public class ComptesServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//PersistenceUtil util = Persistence.getPersistenceUtil();
 		
 		Client client = (Client) request.getSession().getAttribute("client");
 		
-		/*logger.debug("is client loaded ? "+util.isLoaded(client));
+		request.setAttribute("client", client);
+		HashMap<Integer, Double> balanceAccount = new HashMap<Integer, Double>();
+		
+		for (Compte compte : client.getComptes()) {
+			double balance = ClientManager.getSolde(client.getClientID(), compte.getNumero()-1);
+			balanceAccount.put(compte.getNumero(), balance);
+		}
+		
+		request.setAttribute("balanceAccount", balanceAccount);
+		this.getServletContext().getRequestDispatcher("/accounts.jsp").forward(request, response);
+			
+		/*PersistenceUtil util = Persistence.getPersistenceUtil();
+		
+		logger.debug("is client loaded ? "+util.isLoaded(client));
 		logger.debug("is comptes loaded ? "+util.isLoaded(client.getComptes()));
 		client.getComptes().size();
-		logger.debug("N°2 : is comptes loaded ? "+util.isLoaded(client.getComptes()));*/
+		logger.debug("N°2 : is comptes loaded ? "+util.isLoaded(client.getComptes()));
 		
-		request.setAttribute("client", client);
-		request.setAttribute("comptes", client.getComptes());
-		
-		//int clientId = Integer.parseInt(request.getParameter("id"));
-		
-		//Client client = ClientManager.getClientByID(clientId);
-		/*logger.info(client.toString());
+		Client client = ClientManager.getClientByID(clientId);
+		logger.info(client.toString());
 		logger.debug("is client loaded ? "+util.isLoaded(client));
 		
-		List<Compte> Accounts = client.getComptes();
-		
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-		
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
-		String result = gson.toJson(client);
-		out.println(result);*/
-		
-		this.getServletContext().getRequestDispatcher("/accounts.jsp").forward(request, response);
+		List<Compte> Accounts = client.getComptes();*/
 	}
 
 	/**

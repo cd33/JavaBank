@@ -30,14 +30,14 @@ public class VirementsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Client client = ClientManager.getClientByID(1);
+		Client client = (Client) request.getSession().getAttribute("client");
 		request.setAttribute("client", client);
-		List<Compte> comptesEme = client.getComptes();
-		request.setAttribute("comptesEme", comptesEme);
-		List<Compte> comptesDes = ClientManager.getComptes();
-		//comptesDes.removeAll(comptesEme);
-		request.setAttribute("comptesDes", comptesDes);
-		//List<Compte> comptesDes = ClientManager.getOtherAccount(clientID, account)
+		request.setAttribute("accountSender", client.getComptes());
+		/*List<Compte> accountReceiv = ClientManager.getComptes();
+		accountReceiv.removeAll(comptesEme);
+		request.setAttribute("accountReceiv", accountReceiv);
+		List<Compte> comptesDes = ClientManager.getOtherAccount(clientID, account)*/
+		//request.setAttribute("accountReceiv", ClientManager.getComptes());
 		
 		List<Client> clients = ClientManager.getClients();
 		request.setAttribute("clients", clients);

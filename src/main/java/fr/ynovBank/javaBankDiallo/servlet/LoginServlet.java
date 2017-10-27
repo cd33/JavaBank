@@ -7,10 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import fr.ynovBank.javaBankDiallo.dao.ClientManager;
-import fr.ynovBank.javaBankDiallo.dao.LoginManager;
 import fr.ynovBank.javaBankDiallo.model.Client;
 
 @WebServlet("/login")
@@ -36,33 +34,20 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LoginManager logM = new LoginManager();
-		
 		String login = request.getParameter("login");
-		String passwd = request.getParameter("password");
+		String passwd = request.getParameter("passwd");
 		
-		Client client = logM.verifClient(request);
-		client = ClientManager.loginClient(login, passwd);
-		
-		if (logM.getErrors()==null) {
-			if (client != null) {
-				request.getSession().setAttribute("client", client);
-				response.sendRedirect(request.getContextPath()+"/accounts");
-			}
-			else {
-				request.getSession().setAttribute("client", null);
-				this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
-			}
+		Client client = ClientManager.loginClient(login, passwd);
+
+		if (client!=null) {
+			request.getSession().setAttribute("client", client);
+			response.sendRedirect(request.getContextPath()+"/accounts");
 		}
 		else {
 			request.getSession().setAttribute("client", null);
+			request.setAttribute("error", "Echec de la connexion<br>Merci de saisir un login et mot de passe valide.");
 			this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 		}
-		
-	
-        request.setAttribute("logM", logM);
-        /*request.setAttribute("client", client );
-		this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);*/
 	}
 
 }

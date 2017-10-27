@@ -1,22 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Virements</title>
-</head>
-<body>
-	<%@ include file="/menu.jsp" %>
-    
-    <p><fmt:message key="bank.label.welcome"/> ${client.prenom} ${client.nom}</p>   
+
+	<%@ include file="/header.jsp" %>
 	
 	<p><fmt:message key="menu.label.myAccounts"/></p>
 	
 	<FORM>
 	<SELECT name="Comptes Émetteur" size="1">
-	<c:forEach items="${comptesEme}" var="compteEme">
-	   <OPTION>${compteEme.libelle}
+	<c:forEach items="${accountSender}" var="accountSender">
+	   <OPTION>${accountSender.libelle}
 	</c:forEach>
 	</SELECT>
     </FORM>
@@ -35,7 +27,7 @@
     </FORM>
     
     <div id="divHiden" style="display:none;">
-	    <form method="post">
+	    <form method="post" action="transfer">
 	          <label for="amount"><fmt:message key="bank.label.amount" />:</label>
 	          <input type="number" id="amount" name="amount">
 	          <br>

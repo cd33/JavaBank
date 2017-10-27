@@ -147,8 +147,15 @@ public class ClientManager {
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		
-		TypedQuery<Client> tQuery = em.createQuery("from Client where login='"+login+"' and passwd='"+passwd+"'", Client.class);
-		Client client = tQuery.getSingleResult();
+		Client client = new Client();
+		
+		try {
+			TypedQuery<Client> tQuery = em.createQuery("from Client where login='"+login+"' and passwd='"+passwd+"'", Client.class);
+			client = tQuery.getSingleResult();
+		}
+		catch (Exception e) {
+			client = null;
+		}
 		
 		em.close();
 		return client;

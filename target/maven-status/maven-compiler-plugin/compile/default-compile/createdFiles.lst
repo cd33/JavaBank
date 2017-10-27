@@ -1,4 +1,6 @@
 fr\ynovBank\javaBankDiallo\servlet\LoginServlet.class
+fr\ynovBank\javaBankDiallo\filters\LoginFilter.class
+fr\ynovBank\javaBankDiallo\servlet\LogoutServlet.class
 fr\ynovBank\javaBankDiallo\dao\FactorySingleton.class
 fr\ynovBank\javaBankDiallo\servlet\ComptesServlet.class
 fr\ynovBank\javaBankDiallo\servlet\TransactionServlet.class
@@ -9,3 +11,4 @@ fr\ynovBank\javaBankDiallo\dao\ClientManager.class
 fr\ynovBank\javaBankDiallo\servlet\VirementsServlet.class
 fr\ynovBank\javaBankDiallo\model\Transaction.class
 fr\ynovBank\javaBankDiallo\InitJPA.class
+fr\ynovBank\javaBankDiallo\dao\LoginManager.class
