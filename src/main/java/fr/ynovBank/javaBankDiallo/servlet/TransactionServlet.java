@@ -3,7 +3,6 @@ package fr.ynovBank.javaBankDiallo.servlet;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +13,7 @@ import fr.ynovBank.javaBankDiallo.dao.ClientManager;
 import fr.ynovBank.javaBankDiallo.model.Client;
 import fr.ynovBank.javaBankDiallo.model.Compte;
 
-@WebServlet("/Transactions")
+@WebServlet("/transactions")
 public class TransactionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -45,16 +44,14 @@ public class TransactionServlet extends HttpServlet {
 		request.setAttribute("listeTransactions", listeComptes.get(0).getTransactions());
 		request.setAttribute("Solde", ClientManager.getSolde(1, 0));
 		
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/transactions.jsp");
-		dispatcher.forward(request, response);
+		this.getServletContext().getRequestDispatcher("/transactions.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
 	}
 
 }

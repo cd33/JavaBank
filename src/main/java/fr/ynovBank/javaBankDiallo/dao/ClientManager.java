@@ -142,4 +142,16 @@ public class ClientManager {
 		return otherAccounts;
 	}
 	
+	public static Client loginClient(String login, String passwd) {
+		
+		EntityManager em = FactorySingleton.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		
+		TypedQuery<Client> tQuery = em.createQuery("from Client where login='"+login+"' and passwd='"+passwd+"'", Client.class);
+		Client client = tQuery.getSingleResult();
+		
+		em.close();
+		return client;
+	}
+	
 }

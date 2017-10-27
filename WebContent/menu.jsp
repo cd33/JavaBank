@@ -13,17 +13,19 @@
 <body>
 <div id='cssmenu'>
 	<ul>
-		<li><a href="/Comptes">Mes Comptes</a></li>
-		<li><a href="/Virements">Virements</a></li>
-		<li><a href="/">Déconnexion</a></li>
+		<li><a href="/accounts"><fmt:message key="menu.label.myAccounts"/></a></li>
+		<li><a href="/transfer"><fmt:message key="menu.label.transfers"/></a></li>
+		<li><a href="/logout"><fmt:message key="menu.label.logout"/></a></li>
+		<li style="float : right">
+		<form>
+			<select id="language" name="language" onchange="submit()">
+		   		<option value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
+		      	<option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+	    	</select>
+		</form>
+		</li>
 	</ul>
 </div>
-<form>
-    <select id="language" name="language" onchange="submit()">
-   		<option value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
-      	<option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-    </select>
-</form>
 
 </body>
 </html>
