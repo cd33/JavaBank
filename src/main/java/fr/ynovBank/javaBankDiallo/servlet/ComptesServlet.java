@@ -50,11 +50,12 @@ public class ComptesServlet extends HttpServlet {
 		HashMap<Integer, Double> balanceAccount = new HashMap<Integer, Double>();
 		
 		for (Compte compte : client.getComptes()) {
-			double balance = ClientManager.getSolde(client.getClientID(), compte.getNumero()-1);
+			double balance = ClientManager.getBalance(compte.getNumero());
 			balanceAccount.put(compte.getNumero(), balance);
 		}
 		
 		request.setAttribute("balanceAccount", balanceAccount);
+		request.setAttribute("balanceAccountAvailable", ClientManager.getBalanceAvailable(client.getClientID()));
 		this.getServletContext().getRequestDispatcher("/accounts.jsp").forward(request, response);
 			
 		/*PersistenceUtil util = Persistence.getPersistenceUtil();

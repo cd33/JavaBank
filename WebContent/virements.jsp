@@ -3,41 +3,47 @@
 
 	<%@ include file="/header.jsp" %>
 	
-	<p><fmt:message key="menu.label.myAccounts"/></p>
+	<div class="container">
 	
-	<FORM>
-	<SELECT name="Comptes Émetteur" size="1">
-	<c:forEach items="${accountSender}" var="accountSender">
-	   <OPTION>${accountSender.libelle}
-	</c:forEach>
-	</SELECT>
-    </FORM>
-    
-    <p><fmt:message key="bank.label.accounts"/> <fmt:message key="bank.label.receiver"/></p>
-    
-    <FORM>
-		<SELECT name="Receiver Accounts" size="1">
-			<c:forEach items="${clients}" var="client2">
-				<c:forEach items="${client2.comptes}" var="compte">
-			   		<OPTION>${client2.prenom} ${client2.nom} : ${compte.libelle}
+		<form>
+			<div class="form-group">
+			  <label for="myAccounts"><fmt:message key="menu.label.myAccounts"/></label>
+			  <select class="form-control" id="accountsFormControlSelect">
+				<c:forEach items="${accountSender}" var="accountSender">
+				   <option>${accountSender.libelle}</option>
 				</c:forEach>
-			</c:forEach>
-			<input type="button" value="<fmt:message key="transfer.button.confirm"/>" onclick="hideDiv('divHiden');" />
-		</SELECT>
-    </FORM>
+			  </select>
+			</div>
+		</form>
+
+	    <form>
+			<div class="form-group">
+			  <label for="myAccounts"><fmt:message key="bank.label.accounts"/> <fmt:message key="bank.label.receiver"/></label>
+			  <select class="form-control" id="accountsFormControlSelect2">
+				<c:forEach items="${clients}" var="client">
+					<c:forEach items="${client.comptes}" var="compte">
+					   <option>${client.prenom} ${client.nom} : ${compte.libelle}</option>
+					</c:forEach>
+				</c:forEach>
+				<input type="button" class="btn btn-success" style="margin-top: 25px; float: right;" value="<fmt:message key="transfer.button.confirm"/>" onclick="hideDiv('divHiden');"/>
+			  </select>
+			</div>
+		 </form>
+	    
+	    <div id="divHiden" style="display:none; margin-top:80px;">
+		    <form method="post" action="transfer">
+		          <label for="amount"><fmt:message key="bank.label.amount" /></label>
+		          <input type="number" class="form-control" id="amount" name="amount">
+		          <br>
+		          <label for="wording"><fmt:message key="bank.label.wording" /></label>
+		          <input type="text" class="form-control" id="wording" name="wording">
+		          <br>
+		          <fmt:message key="transfer.button.confirm" var="buttonValue" />
+		          <input type="submit" class="btn btn-success" style="float: right;" name="submit" value="<fmt:message key="transfer.button.makeTransfer"/>"/>
+	     	</form>
+	    </div> 
     
-    <div id="divHiden" style="display:none;">
-	    <form method="post" action="transfer">
-	          <label for="amount"><fmt:message key="bank.label.amount" />:</label>
-	          <input type="number" id="amount" name="amount">
-	          <br>
-	          <label for="wording"><fmt:message key="bank.label.wording" />:</label>
-	          <input type="text" id="wording" name="wording">
-	          <br>
-	          <fmt:message key="transfer.button.confirm" var="buttonValue" />
-	          <input type="submit" name="submit" value="${buttonValue}">
-     	</form>
-    </div> 
+    </div>
     	
 	<script type="text/javascript">
 		function hideDiv(id) {
@@ -49,5 +55,5 @@
 			}
 		}
 	</script>
-</body>
-</html>
+
+<%@ include file="/footer.jsp" %>

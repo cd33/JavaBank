@@ -7,8 +7,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="${language}">
 <head>
+<title>BANKDIALLO</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/styles.css"/>
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAZGRkAKas+wDb7P8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIiIiIiIAACIiIiIiIiIAIiMzMzMyIgIiMzMzMzMiIiIzMzMzMyIiIjMiMyIzIiIiMyIzIjMiIiIzIjMiMyIiIjMzMzMzIiIiMzMzMzMiIiIjMzMzMiIiIiIRIhEiIiIiIhEiESIiICIiESIRIiIAIiIiIiIiIgAAIiIiIiIADgBwAAgAEAAIABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAEAAIABAADgBwAA" rel="icon" type="image/x-icon" />
 </head>
 <body>
 <div id='cssmenu'>
@@ -16,9 +18,10 @@
 		<li><a href="${pageContext.request.contextPath}/accounts"><fmt:message key="menu.label.myAccounts"/></a></li>
 		<li><a href="${pageContext.request.contextPath}/transfer"><fmt:message key="menu.label.transfers"/></a></li>
 		<li><a href="${pageContext.request.contextPath}/logout"><fmt:message key="menu.label.logout"/></a></li>
+		
 		<li style="float : right">
 		<form>
-			<select id="language" name="language" onchange="submit()">
+			<select class="custom-select" id="language" name="language" onchange="submit()">
 		   		<option value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
 		      	<option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
 	    	</select>
@@ -26,6 +29,6 @@
 		</li>
 	</ul>
 </div>
-<div>
-	<span>${client.getPrenom()} ${client.getNom()}</span>
+<div class="container">
+	<p style="text-align: center; font-size: 30px;">${client.getPrenom()} ${client.getNom()}</p>
 </div>

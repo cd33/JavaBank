@@ -58,25 +58,36 @@ public class ClientManager {
 		return comptes;
 	}
 	
-	public static double getSolde(int clientID, int compteID) {
+	public static double getBalance(int accountID) {
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
-		
 		em.getTransaction().begin();
+	
+		Compte account = getCompteByID(accountID);
+		List<Transaction> transactions = account.getTransactions();
 		
-		Client client = em.find(Client.class, clientID);
-		
-		List<Compte> comptes = client.getComptes();
-		Compte compte = comptes.get(compteID);
-		
-		List<Transaction> transactions = compte.getTransactions();
-		double solde=0;
-		
+		double balance=0;
 		for (Transaction t : transactions) {
-			solde += t.getMontant();
+			balance += t.getMontant();
 		}
 		
 		em.close();
-		return solde;
+		return balance;
+	}
+	
+	public static double getBalanceAvailable(int clientID) {
+		EntityManager em = FactorySingleton.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		
+		TypedQuery<Compte> tQuery = em.createQuery("from Compte where clientID = "+clientID+"", Compte.class);
+		List<Compte> accounts = tQuery.getResultList();
+		
+		double balance=0;
+		for (Compte a : accounts) {
+			balance += getBalance(a.getNumero());
+		}
+		
+		em.close();
+		return balance;
 	}
 	
 	public static void createTransfer(int clientSenderID, int clientReceiverID, int compteSenderID, int compteReceiverID, double amount, String wording) {
