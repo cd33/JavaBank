@@ -90,16 +90,14 @@ public class ClientManager {
 		return balance;
 	}
 	
-	public static void createTransfer(int clientSenderID, int clientReceiverID, int compteSenderID, int compteReceiverID, double amount, String wording) {
+	public static void createTransfer(int compteSenderID, int compteReceiverID, double amount, String wording) {
 		
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		
 		em.getTransaction().begin();
 		
 		// Sender
-		Client clientSender = em.find(Client.class, clientSenderID);		
-		List<Compte> accountsSender = clientSender.getComptes();
-		Compte accountSender = accountsSender.get(compteSenderID);
+		Compte accountSender = getCompteByID(compteSenderID);
 		
 		// Sender Transaction
 		Transaction transactionSender = new Transaction();
@@ -111,7 +109,7 @@ public class ClientManager {
 		accountSender.getTransactions().add(transactionSender);
 		
 		// Receiver
-		List<Compte> accountsReceiver = null;
+		/*List<Compte> accountsReceiver = null;
 		Client clientReceiver = null;
 		if (clientSenderID!=clientReceiverID) {
 			clientReceiver = em.find(Client.class, clientReceiverID);		
@@ -119,8 +117,8 @@ public class ClientManager {
 		}
 		else {
 			accountsReceiver = accountsSender;
-		}
-		Compte accountReceiver = accountsReceiver.get(compteReceiverID);
+		}*/
+		Compte accountReceiver = getCompteByID(compteReceiverID);
 
 		// Receiver Transaction
 		Transaction transactionReceiver = new Transaction();
@@ -131,8 +129,8 @@ public class ClientManager {
 		accountReceiver.setTransactions(new ArrayList<Transaction>());
 		accountReceiver.getTransactions().add(transactionReceiver);
 		
-		em.persist(clientSender);
-		if (clientSenderID!=clientReceiverID) {em.persist(clientReceiver);}
+		em.persist(transactionSender);
+		if (transactionSender!=transactionReceiver) {em.persist(transactionReceiver);}
 		em.getTransaction().commit();
 		em.close();
 		

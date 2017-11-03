@@ -13,6 +13,13 @@
 </head>
 <body>
 
+   	<c:if test="${not empty error}">
+		<div class="alert alert-danger" role="alert">
+		  <h4 class="alert-heading"><fmt:message key="login.label.error"/></h4>
+		  <p><fmt:message key="login.label.error2"/></p>
+		</div>
+	</c:if>
+
 	<div class="container" style="margin-top:200px;">
 		<form class="loginlangage">
 		    <select class="custom-select" id="language" name="language" onchange="submit()">
@@ -20,25 +27,22 @@
 		       	<option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
 		    </select>
 		</form>
-		
+			
 		<form method="post" action="login">
-				<legend><fmt:message key="login.button.submit"/></legend>
-				
-				<div class="form-group">
-				    <label for="login"><fmt:message key="login.label.login" />:</label>
-				    <input type="text" class="form-control" id="login" name="login" size="20" maxlength="60">
-	            </div>
+			<legend><fmt:message key="login.button.submit"/></legend>
+			
+			<div class="form-group">
+			    <label for="login"><fmt:message key="login.label.login" />:</label>
+			    <input type="text" class="form-control" id="login" name="login" size="20" maxlength="60">
+	           </div>
+	          
+	          	<div class="form-group">
+			    <label for="passwd"><fmt:message key="login.label.password" />:</label>
+			    <input type="password" class="form-control" id="passwd" name="passwd" value="" size="20" maxlength="20" />
+	           </div>
 	           
-	           	<div class="form-group">
-				    <label for="passwd"><fmt:message key="login.label.password" />:</label>
-				    <input type="password" class="form-control" id="passwd" name="passwd" value="" size="20" maxlength="20" />
-	            </div>
-	            
-			    <fmt:message key="login.button.submit" var="buttonValue" />
-			    <input type="submit" class="btn btn-primary" name="submit" value="${buttonValue}">
-			    <br/>
-			    
-			    <c:if test="${not empty error}"><div class="alert alert-danger" role="alert" style="margin-top: 50px;">${error}</div></c:if>
+		    <fmt:message key="login.button.submit" var="buttonValue" />
+		    <input type="submit" class="btn btn-primary" name="submit" value="${buttonValue}">
 		</form>
 	</div>
 

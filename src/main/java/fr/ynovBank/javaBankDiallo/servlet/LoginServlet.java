@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		else {
 			request.getSession().setAttribute("client", null);
-			request.setAttribute("error", "Echec de la connexion<br>Merci de saisir un login et mot de passe valide.");
+			request.setAttribute("error", "true");
 			this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}

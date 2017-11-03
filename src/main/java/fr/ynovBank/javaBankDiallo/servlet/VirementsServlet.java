@@ -55,19 +55,14 @@ public class VirementsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String wording = request.getParameter("wording");
 		double amount = Double.parseDouble(request.getParameter("amount"));
-		Client client = (Client) request.getSession().getAttribute("client");
+		int accountSenderID = Integer.parseInt(request.getParameter("accountsFormControlSelect"));
+		int accountReceiverID = Integer.parseInt(request.getParameter("accountsFormControlSelect2"));
 		
-		ClientManager.createTransfer(client, int clientReceiverID, int compteSenderID, int compteReceiverID, amount, wording);
+		ClientManager.createTransfer(accountSenderID, accountReceiverID, amount, wording);
+		
+		request.setAttribute("success", "true");
 
-		if (client!=null) {
-			request.getSession().setAttribute("client", client);
-			response.sendRedirect(request.getContextPath()+"/accounts");
-		}
-		else {
-			request.getSession().setAttribute("client", null);
-			request.setAttribute("error", "Echec de la connexion<br>Merci de saisir un login et mot de passe valide.");
-			this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
-		}
+		this.getServletContext().getRequestDispatcher("/virements.jsp").forward(request, response);
 	}
 
 }
