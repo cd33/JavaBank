@@ -16,16 +16,16 @@ public class Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int clientID;
-	private String nom;
-	private String prenom;
+	private String name;
+	private String firstname;
 	private String passwd;
 	private String login;
 	
 	@OneToMany(mappedBy = "client", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Compte> comptes;
+	private List<Account> accounts;
 	
 	public String toString() {
-		String result = "ID : "+clientID+", Nom : "+nom+", Prénom : "+prenom+", Login : "+login;
+		String result = "ID : "+clientID+", Name : "+name+", Firstname : "+firstname+", Login : "+login;
 		return result;
 	}
 	
@@ -33,17 +33,17 @@ public class Client {
 		
 	}
 	
-	public String getNom() {
-		return nom;
+	public String getName() {
+		return name;
 	}
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getPrenom() {
-		return prenom;
+	public String getFirstname() {
+		return firstname;
 	}
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 	public int getClientID() {
 		return clientID;
@@ -63,11 +63,11 @@ public class Client {
 	public void setLogin(String login) {
 		this.login = login;
 	}
-	public List<Compte> getComptes() {
-		return comptes;
+	public List<Account> getAccounts() {
+		return accounts;
 	}
-	public void setComptes(List<Compte> comptes) {
-		this.comptes = comptes;
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
 	}
 	
 }

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.ynovBank.javaBankDiallo.dao.ClientManager;
 import fr.ynovBank.javaBankDiallo.model.Client;
-import fr.ynovBank.javaBankDiallo.model.Compte;
+import fr.ynovBank.javaBankDiallo.model.Account;
 
 @WebServlet("/json")
 public class JsonServlet extends HttpServlet {
@@ -41,7 +41,7 @@ public class JsonServlet extends HttpServlet {
 
 		Client client = ClientManager.getClientByID(1);
 		
-		List<Compte> compte = client.getComptes();
+		List<Account> accounts = client.getAccounts();
 
 		response.setContentType("application/json");
 		
@@ -51,15 +51,15 @@ public class JsonServlet extends HttpServlet {
 		
 		JsonObjectBuilder objectBuilder = Json.createObjectBuilder()
 				.add("clientID", client.getClientID())
-				.add("nom", client.getNom())
-				.add("prenom", client.getPrenom())
+				.add("name", client.getName())
+				.add("firstname", client.getFirstname())
 				.add("passwd", client.getPasswd())
 				.add("login", client.getLogin());
 		
 		JsonObjectBuilder objectBuilderaccounts = Json.createObjectBuilder();
-		for(Compte account : compte) { 
-		    objectBuilderaccounts.add("number", account.getNumero())
-		    					 .add("wording", account.getLibelle());
+		for(Account account : accounts) { 
+		    objectBuilderaccounts.add("number", account.getNumber())
+		    					 .add("wording", account.getWording());
 		}
 		
 		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();

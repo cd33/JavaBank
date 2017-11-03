@@ -19,6 +19,12 @@
 		  <p><fmt:message key="login.label.error2"/></p>
 		</div>
 	</c:if>
+	<c:if test="${not empty expiredMessage}">
+		<div class="alert alert-warning" role="alert">
+		  <h4 class="alert-heading"><fmt:message key="login.label.sesExp"/></h4>
+		  <p><fmt:message key="login.label.sesExp2"/></p>
+		</div>
+	</c:if>
 
 	<div class="container" style="margin-top:200px;">
 		<form class="loginlangage">

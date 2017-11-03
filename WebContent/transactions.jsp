@@ -4,7 +4,7 @@
 		<%@ include file="/header.jsp" %>
 		
 		<div class="container">
-			<p style="font-size: 20px; color: green;"><fmt:message key="bank.label.account"/> : ${Compte.libelle}</p>
+			<p style="font-size: 20px; color: green;"><fmt:message key="bank.label.account"/> : ${account.wording}</p>
 			
 				<table class="table table-bordered">
 					<thead>
@@ -15,17 +15,17 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${listeTransactions}" var="transaction">
+						<c:forEach items="${transactionsList}" var="transaction">
 						<tr>
-							<td>${transaction.libelle}</td>
+							<td>${transaction.wording}</td>
 							<td>${transaction.date}</td>
-							<td>${transaction.montant} €</td>
+							<td>${transaction.amount} €</td>
 						</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 			
-			<div style="text-align:center; margin-top:20px; font-size:20px;"><fmt:message key="bank.label.balance"/> : ${Solde} <fmt:message key="bank.label.currency"/></div>
+			<div style="text-align:center; margin-top:20px; font-size:20px;"><fmt:message key="bank.label.balance"/> : ${balance} <fmt:message key="bank.label.currency"/></div>
 		</div>
 		
 <%@ include file="/footer.jsp" %>

@@ -30,5 +30,5 @@
 	</ul>
 </div>
 <div class="container">
-	<p style="text-align: center; font-size: 30px;">${client.getPrenom()} ${client.getNom()}</p>
+	<p style="text-align: center; font-size: 30px;">${client.firstname} ${client.name}</p>
 </div>

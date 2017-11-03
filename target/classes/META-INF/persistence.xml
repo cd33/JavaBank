@@ -6,7 +6,7 @@
    <persistence-unit name="javaBankDiallo" transaction-type="RESOURCE_LOCAL">
      <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
      <class>fr.ynovBank.javaBankDiallo.model.Client</class>
-     <class>fr.ynovBank.javaBankDiallo.model.Compte</class>
+     <class>fr.ynovBank.javaBankDiallo.model.Account</class>
 	 <properties>
 	 
 		<property name="hibernate.archive.autodetection" value="class"/>

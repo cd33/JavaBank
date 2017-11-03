@@ -15,13 +15,13 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int transacID;
-	private String libelle;
+	private String wording;
 	private Date date;
-	private double montant;
+	private double amount;
 	
 	@ManyToOne
-	@JoinColumn(name="numeroCompte")
-	private Compte leCompte;
+	@JoinColumn(name="accountNumber")
+	private Account account;
 	
 	
 	public int getTransacID() {
@@ -32,12 +32,12 @@ public class Transaction {
 		this.transacID = transacID;
 	}
 
-	public String getLibelle() {
-		return libelle;
+	public String getWording() {
+		return wording;
 	}
 
-	public void setLibelle(String libelle) {
-		this.libelle = libelle;
+	public void setWording(String wording) {
+		this.wording = wording;
 	}
 
 	public Date getDate() {
@@ -48,20 +48,20 @@ public class Transaction {
 		this.date = date;
 	}
 
-	public double getMontant() {
-		return montant;
+	public double getAmount() {
+		return amount;
 	}
 
-	public void setMontant(double montant) {
-		this.montant = montant;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
-	public Compte getCompte() {
-		return leCompte;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setCompte(Compte compte) {
-		this.leCompte = compte;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }

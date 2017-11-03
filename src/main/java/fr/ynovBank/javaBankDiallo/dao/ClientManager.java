@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 //import java.sql.Statement;
 
 import fr.ynovBank.javaBankDiallo.model.Client;
-import fr.ynovBank.javaBankDiallo.model.Compte;
+import fr.ynovBank.javaBankDiallo.model.Account;
 import fr.ynovBank.javaBankDiallo.model.Transaction;
 import fr.ynovBank.javaBankDiallo.dao.FactorySingleton;;
 
@@ -37,37 +37,37 @@ public class ClientManager {
 		return clients;
 	}
 	
-	public static Compte getCompteByID(int compteID) {
+	public static Account getAccountByID(int accountID) {
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		
-		Compte compte = em.find(Compte.class, compteID);
+		Account account = em.find(Account.class, accountID);
 		
 		em.close();
-		return compte;
+		return account;
 	}
 	
-	public static List<Compte> getComptes() {
+	public static List<Account> getAccounts() {
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		
-		TypedQuery<Compte> tQueryC = em.createQuery("from Compte", Compte.class);
-		List<Compte> comptes = tQueryC.getResultList();
+		TypedQuery<Account> tQueryC = em.createQuery("from Account", Account.class);
+		List<Account> accounts = tQueryC.getResultList();
 		
 		em.close();
-		return comptes;
+		return accounts;
 	}
 	
 	public static double getBalance(int accountID) {
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		em.getTransaction().begin();
 	
-		Compte account = getCompteByID(accountID);
+		Account account = getAccountByID(accountID);
 		List<Transaction> transactions = account.getTransactions();
 		
 		double balance=0;
 		for (Transaction t : transactions) {
-			balance += t.getMontant();
+			balance += t.getAmount();
 		}
 		
 		em.close();
@@ -78,54 +78,45 @@ public class ClientManager {
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		
-		TypedQuery<Compte> tQuery = em.createQuery("from Compte where clientID = "+clientID+"", Compte.class);
-		List<Compte> accounts = tQuery.getResultList();
+		TypedQuery<Account> tQuery = em.createQuery("from Account where clientID = "+clientID+"", Account.class);
+		List<Account> accounts = tQuery.getResultList();
 		
 		double balance=0;
-		for (Compte a : accounts) {
-			balance += getBalance(a.getNumero());
+		for (Account a : accounts) {
+			balance += getBalance(a.getNumber());
 		}
 		
 		em.close();
 		return balance;
 	}
 	
-	public static void createTransfer(int compteSenderID, int compteReceiverID, double amount, String wording) {
+	public static void createTransfer(int accountSenderID, int accountReceiverID, double amount, String wording) {
 		
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		
 		em.getTransaction().begin();
 		
 		// Sender
-		Compte accountSender = getCompteByID(compteSenderID);
+		Account accountSender = getAccountByID(accountSenderID);
 		
 		// Sender Transaction
 		Transaction transactionSender = new Transaction();
-		transactionSender.setCompte(accountSender);
-		transactionSender.setLibelle(wording);
+		transactionSender.setAccount(accountSender);
+		transactionSender.setWording(wording);
 		transactionSender.setDate(new Date());
-		transactionSender.setMontant(-amount);
+		transactionSender.setAmount(-amount);
 		accountSender.setTransactions(new ArrayList<Transaction>());
 		accountSender.getTransactions().add(transactionSender);
 		
 		// Receiver
-		/*List<Compte> accountsReceiver = null;
-		Client clientReceiver = null;
-		if (clientSenderID!=clientReceiverID) {
-			clientReceiver = em.find(Client.class, clientReceiverID);		
-			accountsReceiver = clientReceiver.getComptes();
-		}
-		else {
-			accountsReceiver = accountsSender;
-		}*/
-		Compte accountReceiver = getCompteByID(compteReceiverID);
+		Account accountReceiver = getAccountByID(accountReceiverID);
 
 		// Receiver Transaction
 		Transaction transactionReceiver = new Transaction();
-		transactionReceiver.setCompte(accountReceiver);
-		transactionReceiver.setLibelle(wording);
+		transactionReceiver.setAccount(accountReceiver);
+		transactionReceiver.setWording(wording);
 		transactionReceiver.setDate(new Date());
-		transactionReceiver.setMontant(amount);
+		transactionReceiver.setAmount(amount);
 		accountReceiver.setTransactions(new ArrayList<Transaction>());
 		accountReceiver.getTransactions().add(transactionReceiver);
 		
@@ -136,16 +127,16 @@ public class ClientManager {
 		
 	}
 	
-	public static List<Compte> getOtherAccount(int clientID, int account) {
+	public static List<Account> getOtherAccount(int clientID, int account) {
 		
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		
 		Client client = ClientManager.getClientByID(clientID);
-		List<Compte> comptes = client.getComptes();
-		Compte compte = comptes.get(account);
-		TypedQuery<Compte> tQueryC = em.createQuery("from compte where numero != " +compte.getNumero()+ "", Compte.class);
-		List<Compte> otherAccounts = tQueryC.getResultList();
+		List<Account> accounts = client.getAccounts();
+		Account a = accounts.get(account);
+		TypedQuery<Account> tQueryC = em.createQuery("from Account where numero != " +a.getNumber()+ "", Account.class);
+		List<Account> otherAccounts = tQueryC.getResultList();
 		
 		em.close();
 		return otherAccounts;
@@ -170,4 +161,20 @@ public class ClientManager {
 		return client;
 	}
 	
+	public static void createAccount(int clientID, String wording) {
+		
+		EntityManager em = FactorySingleton.getInstance().createEntityManager();
+		
+		em.getTransaction().begin();
+		
+		Client client = getClientByID(clientID);
+		
+		Account account = new Account();
+		account.setWording(wording);
+		account.setClient(client);
+		
+		em.persist(account);
+		em.getTransaction().commit();
+		em.close();
+	}
 }

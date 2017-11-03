@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.ynovBank.javaBankDiallo.dao.ClientManager;
 import fr.ynovBank.javaBankDiallo.model.Client;
-import fr.ynovBank.javaBankDiallo.model.Compte;
+import fr.ynovBank.javaBankDiallo.model.Account;
 
 @WebServlet("/transactions/*")
 public class TransactionServlet extends HttpServlet {
@@ -37,16 +37,16 @@ public class TransactionServlet extends HttpServlet {
 		
 		Client client = (Client) request.getSession().getAttribute("client");
 		request.setAttribute("client", client);
-		List<Compte> listeComptes = client.getComptes();
-		request.setAttribute("Compte", listeComptes.get(index));
-		request.setAttribute("listeTransactions", listeComptes.get(index).getTransactions());
-		request.setAttribute("Solde", ClientManager.getBalance(index+1));
+		List<Account> listeComptes = client.getAccounts();
+		request.setAttribute("account", listeComptes.get(index));
+		request.setAttribute("transactionsList", listeComptes.get(index).getTransactions());
+		request.setAttribute("balance", ClientManager.getBalance(index+1));
 		
 		/*PersistenceUtil util = Persistence.getPersistenceUtil();
 		logger.debug("is client loaded ? "+util.isLoaded(client));
-		logger.debug("is comptes loaded ? "+util.isLoaded(client.getComptes()));
-		client.getComptes().size();
-		logger.debug("N°2 : is comptes loaded ? "+util.isLoaded(client.getComptes()));*/
+		logger.debug("is accounts loaded ? "+util.isLoaded(client.getAccounts()));
+		client.getAccounts().size();
+		logger.debug("N°2 : is accounts loaded ? "+util.isLoaded(client.getAccounts()));*/
 		this.getServletContext().getRequestDispatcher("/transactions.jsp").forward(request, response);
 	}
 
