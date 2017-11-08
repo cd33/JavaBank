@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.ynovBank.javaBankDiallo.dao.ClientManager;
+import fr.ynovBank.javaBankDiallo.dao.TransferManager;
 import fr.ynovBank.javaBankDiallo.model.Client;
 import fr.ynovBank.javaBankDiallo.model.Account;
 
@@ -53,16 +54,22 @@ public class TransferServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String wording = request.getParameter("wording");
-		double amount = Double.parseDouble(request.getParameter("amount"));
 		int accountSenderID = Integer.parseInt(request.getParameter("accountsFormControlSelect"));
 		int accountReceiverID = Integer.parseInt(request.getParameter("accountsFormControlSelect2"));
-		
-		ClientManager.createTransfer(accountSenderID, accountReceiverID, amount, wording);
-		
-		request.setAttribute("success", "true");
+		double amount = Double.parseDouble(request.getParameter("amount"));
+		String wording = request.getParameter("wording");
 
-		this.getServletContext().getRequestDispatcher("/transfer.jsp").forward(request, response);
+		TransferManager transfer = new TransferManager();
+		transfer.checkTransfer(request);
+		request.setAttribute("transfer", transfer);
+		
+		if (transfer.getErrors().isEmpty()) {
+			ClientManager.createTransfer(accountSenderID, accountReceiverID, amount, wording);
+			response.sendRedirect(request.getContextPath()+"/accounts");
+		}
+		else {
+			this.getServletContext().getRequestDispatcher("/transfer.jsp").forward(request, response);
+		}
 	}
 
 }

@@ -8,17 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.ynovBank.javaBankDiallo.dao.ClientManager;
-import fr.ynovBank.javaBankDiallo.dao.LoginManager;
+import fr.ynovBank.javaBankDiallo.dao.TransferManager;
 import fr.ynovBank.javaBankDiallo.model.Client;
 
-@WebServlet("/signup")
-public class SignupServlet extends HttpServlet {
+@WebServlet("/createAccount")
+public class CreateAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SignupServlet() {
+    public CreateAccountServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,30 +27,26 @@ public class SignupServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher("/signup.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/createAccount.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*String name = request.getParameter("name");
-		String firstname = request.getParameter("firstname");
-		String login = request.getParameter("login");
-		String passwd = request.getParameter("passwd");
-		ClientManager.createClient(name, firstname, login, passwd);*/
-		
-		LoginManager signup = new LoginManager();
-		Client client = signup.checkClient(request);
-        request.setAttribute("signup", signup);
-		
-		if (signup.getErrors().isEmpty()) {
-			ClientManager.createClient(client);
-			response.sendRedirect(request.getContextPath()+"/login");
+		String wording = request.getParameter("wording");
+		TransferManager account = new TransferManager();
+		account.checkCreateAccount(request);
+		request.setAttribute("account", account);
+		if (account.getErrors().isEmpty()) {
+			Client client = (Client) request.getSession().getAttribute("client");
+			ClientManager.createAccount(client.getClientID(), wording);
+			Client newclient = ClientManager.loginClient(client);
+			request.getSession().setAttribute("client", newclient);
+			response.sendRedirect(request.getContextPath()+"/accounts");
 		}
 		else {
-			this.getServletContext().getRequestDispatcher("/signup.jsp").forward(request, response);
-		}
+			this.getServletContext().getRequestDispatcher("/createAccount.jsp").forward(request, response);
+		}	
 	}
-
 }

@@ -40,16 +40,19 @@
 			<div class="form-group">
 			    <label for="login"><fmt:message key="login.label.login" />:</label>
 			    <input type="text" class="form-control" id="login" name="login" size="20" maxlength="60">
+			    <span class="error">${login.errors['login']}</span>
 	           </div>
 	          
 	          	<div class="form-group">
 			    <label for="passwd"><fmt:message key="login.label.password" />:</label>
 			    <input type="password" class="form-control" id="passwd" name="passwd" value="" size="20" maxlength="20" />
+	            <span class="error">${login.errors['passwd']}</span>
 	           </div>
 	           
 		    <fmt:message key="login.button.submit" var="buttonValue" />
 		    <input type="submit" class="btn btn-primary" name="submit" value="${buttonValue}">
 		</form>
+		<p><a href="${pageContext.request.contextPath}/signup"><fmt:message key="bank.label.signup"/></a></p>
 	</div>
 
 <%@ include file="/footer.jsp" %>

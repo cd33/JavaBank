@@ -38,9 +38,10 @@ public class TransactionServlet extends HttpServlet {
 		Client client = (Client) request.getSession().getAttribute("client");
 		request.setAttribute("client", client);
 		List<Account> listeComptes = client.getAccounts();
-		request.setAttribute("account", listeComptes.get(index));
-		request.setAttribute("transactionsList", listeComptes.get(index).getTransactions());
-		request.setAttribute("balance", ClientManager.getBalance(index+1));
+		Account account = listeComptes.get(index);
+		request.setAttribute("account", account);
+		request.setAttribute("transactionsList", account.getTransactions());
+		request.setAttribute("balance", ClientManager.getBalance(account.getNumber()));
 		
 		/*PersistenceUtil util = Persistence.getPersistenceUtil();
 		logger.debug("is client loaded ? "+util.isLoaded(client));

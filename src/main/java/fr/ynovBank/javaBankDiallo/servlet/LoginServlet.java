@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.ynovBank.javaBankDiallo.dao.ClientManager;
+import fr.ynovBank.javaBankDiallo.dao.LoginManager;
 import fr.ynovBank.javaBankDiallo.model.Client;
 
 @WebServlet("/login")
@@ -29,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	long timestamp = new Date().getTime();
+    	/*long timestamp = new Date().getTime();
 		Cookie[] cookies = request.getCookies();
 
 		for (Cookie cookie : cookies) {
@@ -38,7 +39,7 @@ public class LoginServlet extends HttpServlet {
 					request.setAttribute("expiredMessage", "true");
 				}
 			}
-		}
+		}*/
     	
     	this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 	}
@@ -47,12 +48,33 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String login = request.getParameter("login");
+		/*String login = request.getParameter("login");
 		String passwd = request.getParameter("passwd");
+		Client client = ClientManager.loginClient(login, passwd);*/
 		
-		Client client = ClientManager.loginClient(login, passwd);
+		LoginManager login = new LoginManager();
+		Client clientTest = login.checkLogin(request);
+		request.setAttribute("login", login);
+		
+		if (login.getErrors().isEmpty()) {
+			Client client = ClientManager.loginClient(clientTest);
+			long cookieDatecreated = request.getSession().getCreationTime()
+					+ request.getSession().getMaxInactiveInterval() * 1000;
+			String cookieDatecreatedSting = Long.toString(cookieDatecreated);
 
-		if (client!=null) {
+			Cookie cookie = new Cookie("sessionExpired", cookieDatecreatedSting);
+			cookie.setMaxAge((request.getSession().getMaxInactiveInterval() * 2));
+			response.addCookie(cookie);
+			
+			request.getSession().setAttribute("client", client);
+			
+			response.sendRedirect(request.getContextPath()+"/accounts");
+		}
+		else {
+			this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+
+		/*if (client!=null) {
 			long cookieDatecreated = request.getSession().getCreationTime()
 					+ request.getSession().getMaxInactiveInterval() * 1000;
 			String cookieDatecreatedSting = Long.toString(cookieDatecreated);
@@ -67,7 +89,7 @@ public class LoginServlet extends HttpServlet {
 		else {			
 			request.setAttribute("error", "true");
 			this.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
-		}
+		}*/
 	}
 
 }

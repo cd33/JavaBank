@@ -4,7 +4,7 @@
 		<%@ include file="/header.jsp" %>
 		
 		<div class="container">
-			<p style="font-size: 20px; color: green;"><fmt:message key="bank.label.account"/> : ${account.wording}</p>
+			<p style="font-size: 20px; color: green;">${account.wording}</p>
 			
 				<table class="table table-bordered">
 					<thead>

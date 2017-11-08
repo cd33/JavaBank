@@ -93,7 +93,6 @@ public class ClientManager {
 	public static void createTransfer(int accountSenderID, int accountReceiverID, double amount, String wording) {
 		
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
-		
 		em.getTransaction().begin();
 		
 		// Sender
@@ -121,7 +120,9 @@ public class ClientManager {
 		accountReceiver.getTransactions().add(transactionReceiver);
 		
 		em.persist(transactionSender);
-		if (transactionSender!=transactionReceiver) {em.persist(transactionReceiver);}
+		if (transactionSender!=transactionReceiver) {
+			em.persist(transactionReceiver);
+		}
 		em.getTransaction().commit();
 		em.close();
 		
@@ -142,7 +143,7 @@ public class ClientManager {
 		return otherAccounts;
 	}
 	
-	public static Client loginClient(String login, String passwd) {
+	/*public static Client loginClient(String login, String passwd) {
 		
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		em.getTransaction().begin();
@@ -159,12 +160,26 @@ public class ClientManager {
 		
 		em.close();
 		return client;
+	}*/
+	
+	public static Client loginClient(Client client) {
+		EntityManager em = FactorySingleton.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		
+		try {
+			TypedQuery<Client> tQuery = em.createQuery("from Client where login='"+client.getLogin()+"' and passwd='"+client.getPasswd()+"'", Client.class);
+			client = tQuery.getSingleResult();
+		}
+		catch (Exception e) {
+			client = null;
+		}
+		
+		em.close();
+		return client;
 	}
 	
 	public static void createAccount(int clientID, String wording) {
-		
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
-		
 		em.getTransaction().begin();
 		
 		Client client = getClientByID(clientID);
@@ -174,6 +189,31 @@ public class ClientManager {
 		account.setClient(client);
 		
 		em.persist(account);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	/*public static void createClient(String name, String firstname, String login, String passwd) {
+		EntityManager em = FactorySingleton.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		
+		Client client = new Client();
+		
+		client.setName(name);
+		client.setFirstname(firstname);
+		client.setLogin(login);
+		client.setPasswd(passwd);
+		
+		em.persist(client);
+		em.getTransaction().commit();
+		em.close();
+	}*/
+	
+	public static void createClient(Client client) {
+		EntityManager em = FactorySingleton.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		
+		em.persist(client);
 		em.getTransaction().commit();
 		em.close();
 	}
