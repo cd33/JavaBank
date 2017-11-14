@@ -31,20 +31,15 @@ public class TransferServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Client client = (Client) request.getSession().getAttribute("client");
-		request.setAttribute("accountSender", client.getAccounts());
+		/*Client client = (Client) request.getSession().getAttribute("client");
+		request.setAttribute("accountSender", client.getAccounts());*/
 		/*List<Compte> accountReceiv = ClientManager.getComptes();
 		accountReceiv.removeAll(comptesEme);
 		request.setAttribute("accountReceiv", accountReceiv);
 		List<Compte> comptesDes = ClientManager.getOtherAccount(clientID, account)*/
 		//request.setAttribute("accountReceiv", ClientManager.getComptes());
 		
-		List<Client> clients = ClientManager.getClients();
-		request.setAttribute("clients", clients);
-		
-		for (Client client2 : clients) {
-			client2.getAccounts();
-		}
+		TransferManager.TransferServlet(request);
 		
 		this.getServletContext().getRequestDispatcher("/transfer.jsp").forward(request, response);
 		
@@ -56,7 +51,6 @@ public class TransferServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int accountSenderID = Integer.parseInt(request.getParameter("accountsFormControlSelect"));
 		int accountReceiverID = Integer.parseInt(request.getParameter("accountsFormControlSelect2"));
-		double amount = Double.parseDouble(request.getParameter("amount"));
 		String wording = request.getParameter("wording");
 
 		TransferManager transfer = new TransferManager();
@@ -64,10 +58,12 @@ public class TransferServlet extends HttpServlet {
 		request.setAttribute("transfer", transfer);
 		
 		if (transfer.getErrors().isEmpty()) {
+			double amount = Double.parseDouble(request.getParameter("amount"));
 			ClientManager.createTransfer(accountSenderID, accountReceiverID, amount, wording);
 			response.sendRedirect(request.getContextPath()+"/accounts");
 		}
 		else {
+			TransferManager.TransferServlet(request);
 			this.getServletContext().getRequestDispatcher("/transfer.jsp").forward(request, response);
 		}
 	}

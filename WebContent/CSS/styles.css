@@ -96,8 +96,16 @@
   background: #47c9af;
 }
 
-
-
 .loginlangage {
 	float: right;
 }
+
+.button {
+	display: flex;
+	justify-content: center;
+}
+
+span {
+	color:red;
+}
+

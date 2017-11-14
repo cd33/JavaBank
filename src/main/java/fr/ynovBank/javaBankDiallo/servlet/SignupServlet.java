@@ -34,12 +34,6 @@ public class SignupServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*String name = request.getParameter("name");
-		String firstname = request.getParameter("firstname");
-		String login = request.getParameter("login");
-		String passwd = request.getParameter("passwd");
-		ClientManager.createClient(name, firstname, login, passwd);*/
-		
 		LoginManager signup = new LoginManager();
 		Client client = signup.checkClient(request);
         request.setAttribute("signup", signup);

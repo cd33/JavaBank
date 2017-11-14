@@ -3,21 +3,34 @@
 <c:if test="${not empty account.errors}">
 	<div class="alert alert-danger" role="alert">
 	  <h4 class="alert-heading"><fmt:message key="transfer.label.failed"/></h4>
-	  <p>${account.result}</p>
+	  <c:forEach items="${account.errors}" var="p">
+	  	<c:if test="${p.value=='wording'}">
+			<fmt:message key="transfer.error.wording"/>
+		</c:if>
+		<c:if test="${p.value=='wording2'}">
+			<fmt:message key="transfer.error.wording2"/>
+		</c:if>
+	  </c:forEach>
 	</div>
 </c:if>
 
 <div class="container">
-	<p><fmt:message key="bank.label.createAccount"/></p>
 	<form method="post" action="createAccount">
+		<legend><fmt:message key="bank.label.createAccount"/></legend>
 	    <div class="form-group">
 	          <label for="wording"><fmt:message key="bank.label.wording"/></label>
 	          <input type="text" class="form-control" id="wording" name="wording">
-	          <span class="error">${account.errors['wording']}</span>
+	          <c:if test="${account.errors['wording']=='wording'}">
+					<span class="error"><fmt:message key="transfer.error.wording"/></span>
+			  </c:if>
+			  <c:if test="${account.errors['wording']=='wording2'}">
+					<span class="error"><fmt:message key="transfer.error.wording2"/></span>
+			  </c:if>
 	    </div>
-		<fmt:message key="transfer.button.confirm" var="buttonValue" />
-		<input type="submit" class="btn btn-success" style="float: right;" name="submit" value="<fmt:message key="transfer.button.confirm"/>"/>
+		<div class="button">
+	    	<input type="submit" class="btn btn-success btn-lg" name="submit" value="<fmt:message key="transfer.button.confirm"/>"/>
+    	</div>
    	</form>
-   </div>
+</div>
     
 <%@ include file="/footer.jsp" %>

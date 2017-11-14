@@ -7,13 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import fr.ynovBank.javaBankDiallo.model.Client;
 
 public class LoginManager {
-	
-    private String result;
-    private Map<String, String> errors = new HashMap<String, String>();
 
-    public String getResults() {
-        return result;
-    }
+    private Map<String, String> errors = new HashMap<String, String>();
 
     public Map<String, String> getErrors() {
         return errors;
@@ -39,11 +34,22 @@ public class LoginManager {
         }
         client.setPasswd(passwd);
 
-        if (errors.isEmpty()) {
-            result = "<fmt:message key='login.error.success'/>";
-        } else {
-            result = "<fmt:message key='login.error.fail'/>";
+        return client;
+    }
+    
+    public Client checkUpdatePasswd(HttpServletRequest request) {
+		String oldPasswd = request.getParameter("oldPasswd");
+		String newPasswd = request.getParameter("newPasswd");
+		String newPasswd2 = request.getParameter("newPasswd2");
+
+        Client client = new Client();
+
+        try {
+            checkPasswd(oldPasswd, newPasswd, newPasswd2);
+        } catch (Exception e) {
+            setError("passwd", e.getMessage());
         }
+        client.setPasswd(newPasswd);
 
         return client;
     }
@@ -53,8 +59,6 @@ public class LoginManager {
 		String firstname = request.getParameter("firstname");
 		String login = request.getParameter("login");
 		String passwd = request.getParameter("passwd");
-        /*String login = getValueField(request, "login");
-        String passwd = getValueField(request, "passwd");*/
 
         Client client = new Client();
         
@@ -86,58 +90,56 @@ public class LoginManager {
         }
         client.setPasswd(passwd);
 
-        if (errors.isEmpty()) {
-            result = "<fmt:message key='signup.error.success'/>";
-        } else {
-            result = "<fmt:message key='signup.error.fail'/>";
-        }
-
         return client;
     }
     
     private void checkName(String name) throws Exception {
-        if (name == null) {
-            throw new Exception("<fmt:message key='login.error.name'/>");
+        if (name.isEmpty()) {
+            throw new Exception("name");
         }
     }
     
     private void checkFirstname(String firstname) throws Exception {
-        if (firstname == null) {
-            throw new Exception("<fmt:message key='login.error.firstname'/>");
+        if (firstname.isEmpty()) {
+            throw new Exception("firstname");
         }
     }
 
     private void checkLogin(String login) throws Exception {
-	    if (login!=null) {
-	    	if (login.trim().length()<3) {
-	    		throw new Exception("<fmt:message key='login.error.login'/>");
+	    if (!login.isEmpty()) {
+	    	if (login.length()<3) {
+	    		throw new Exception("login");
 	    	}
 	    } else {
-	        throw new Exception("<fmt:message key='login.error.login2'/>");
+	        throw new Exception("login2");
 	    }
 	}
 
 	private void checkPasswd(String passwd) throws Exception{
-		if (passwd!=null) {
-	    	if (passwd.trim().length()<8) {
-	    		throw new Exception("<fmt:message key='login.error.passwd'/>");
+		if (!passwd.isEmpty()) {
+	    	if (passwd.length()<8) {
+	    		throw new Exception("passwd");
 	    	}
 	    } else {
-	        throw new Exception("<fmt:message key='login.error.passwd2'/>");
+	        throw new Exception("passwd2");
+	    }
+	}
+	
+	private void checkPasswd(String oldPasswd, String newPasswd, String newPasswd2) throws Exception{
+		if (!oldPasswd.isEmpty() && !newPasswd.isEmpty() && !newPasswd2.isEmpty()) {
+	    	if (oldPasswd.length()<8 || newPasswd.length()<8 || newPasswd2.length()<8) {
+	    		throw new Exception("passwd");
+	    	}
+	    	if (!newPasswd.equals(newPasswd2)) {
+	    		throw new Exception("passwd3");
+	    	}
+	    } else {
+	        throw new Exception("passwd2");
 	    }
 	}
 
     private void setError(String field, String message) {
         errors.put(field, message);
     }
-
-    /*private static String getValueField(HttpServletRequest request, String nameField) {
-        String value = request.getParameter(nameField);
-        if (value == null || value.trim().length() == 0) {
-            return null;
-        } else {
-            return value;
-        }
-    }*/
 }
 

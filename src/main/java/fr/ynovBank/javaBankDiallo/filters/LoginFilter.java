@@ -55,7 +55,7 @@ public class LoginFilter implements Filter {
         	if (loggedIn) {
 	        	Client client = (Client) ((HttpServletRequest) request).getSession().getAttribute("client");
 	            boolean account = !client.getAccounts().isEmpty();
-	        	if (!account && !req.getServletPath().equals("/logout")) {
+	        	if (!account && (!req.getServletPath().equals("/logout") || !req.getServletPath().equals("/parameters"))) {
 	        		if (req.getServletPath().equals("/createAccount")) {
 	        			chain.doFilter(request, response);        			
 	        		} else {
@@ -67,11 +67,13 @@ public class LoginFilter implements Filter {
             } else {
             	chain.doFilter(request, response);
             }
-        } else {
+        } else if (req.getServletPath().equals("/signup")) {
+    			chain.doFilter(request, response);        			
+        }
+        else {
             res.sendRedirect(loginURI);
         }
 	}
-
 
 	/**
 	 * @see Filter#init(FilterConfig)

@@ -9,6 +9,10 @@
 	</ul>
 
 	<div style="text-align:center; margin-top:20px; font-size:20px;"><fmt:message key="bank.label.balanceAvailable"/> : ${balanceAccountAvailable} <fmt:message key="bank.label.currency"/></div>
+	
+    <div class="button">
+      	<a class="btn btn-success btn-lg" role="button" style="margin-top: 25px;" href="${pageContext.request.contextPath}/createAccount"><fmt:message key="bank.label.createAccount"/></a>
+    </div>
 </div>
         
 <%@ include file="/footer.jsp" %>

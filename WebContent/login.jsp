@@ -13,16 +13,20 @@
 </head>
 <body>
 
-   	<c:if test="${not empty error}">
+   	<c:if test="${not empty login.errors}">
 		<div class="alert alert-danger" role="alert">
 		  <h4 class="alert-heading"><fmt:message key="login.label.error"/></h4>
-		  <p><fmt:message key="login.label.error2"/></p>
+		</div>
+	</c:if>
+	<c:if test="${not empty accountFail}">
+		<div class="alert alert-danger" role="alert">
+		  <h4 class="alert-heading"><fmt:message key="login.connection.failed"/></h4>
 		</div>
 	</c:if>
 	<c:if test="${not empty expiredMessage}">
 		<div class="alert alert-warning" role="alert">
 		  <h4 class="alert-heading"><fmt:message key="login.label.sesExp"/></h4>
-		  <p><fmt:message key="login.label.sesExp2"/></p>
+		  <fmt:message key="login.label.sesExp2"/>
 		</div>
 	</c:if>
 
@@ -40,19 +44,33 @@
 			<div class="form-group">
 			    <label for="login"><fmt:message key="login.label.login" />:</label>
 			    <input type="text" class="form-control" id="login" name="login" size="20" maxlength="60">
-			    <span class="error">${login.errors['login']}</span>
-	           </div>
+			    <c:if test="${login.errors['login']=='login'}">
+					<span class="error"><fmt:message key='login.error.login'/></span>
+			  	</c:if>
+			  	<c:if test="${login.errors['login']=='login2'}">
+					<span class="error"><fmt:message key='login.error.login2'/></span>
+			  	</c:if>
+	        </div>
 	          
-	          	<div class="form-group">
+          	<div class="form-group">
 			    <label for="passwd"><fmt:message key="login.label.password" />:</label>
 			    <input type="password" class="form-control" id="passwd" name="passwd" value="" size="20" maxlength="20" />
-	            <span class="error">${login.errors['passwd']}</span>
-	           </div>
-	           
-		    <fmt:message key="login.button.submit" var="buttonValue" />
-		    <input type="submit" class="btn btn-primary" name="submit" value="${buttonValue}">
+	            <c:if test="${login.errors['passwd']=='passwd'}">
+					<span class="error"><fmt:message key='login.error.passwd'/></span>
+			  	</c:if>
+			  	<c:if test="${login.errors['passwd']=='passwd2'}">
+					<span class="error"><fmt:message key='login.error.passwd2'/></span>
+			  	</c:if>
+        	</div>
+	        <div class="buttons">   
+			    <div class="button" style="float:left">
+			    	<input type="submit" class="btn btn-primary btn-lg" name="submit" value="<fmt:message key="login.button.submit"/>"/>
+		    	</div>
+		    	<div class="button" style="float:right">
+	      			<a class="btn btn-success btn-lg" role="button" href="${pageContext.request.contextPath}/signup"><fmt:message key="bank.label.signup"/></a>
+   				</div>
+   			</div>
 		</form>
-		<p><a href="${pageContext.request.contextPath}/signup"><fmt:message key="bank.label.signup"/></a></p>
 	</div>
 
 <%@ include file="/footer.jsp" %>

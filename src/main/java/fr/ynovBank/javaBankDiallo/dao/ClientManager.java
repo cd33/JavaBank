@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -162,7 +163,7 @@ public class ClientManager {
 		return client;
 	}*/
 	
-	public static Client loginClient(Client client) {
+	public static Client loginClient(Client client) throws Exception {
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		
@@ -172,6 +173,7 @@ public class ClientManager {
 		}
 		catch (Exception e) {
 			client = null;
+			throw new Exception("accountFail");
 		}
 		
 		em.close();
@@ -193,21 +195,20 @@ public class ClientManager {
 		em.close();
 	}
 	
-	/*public static void createClient(String name, String firstname, String login, String passwd) {
+	public static void updatePasswd(int clientID, String oldPasswd, String newPasswd) {
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		
-		Client client = new Client();
+		Client client = getClientByID(clientID);
 		
-		client.setName(name);
-		client.setFirstname(firstname);
-		client.setLogin(login);
-		client.setPasswd(passwd);
-		
-		em.persist(client);
-		em.getTransaction().commit();
+		boolean check = client.getPasswd().equals(oldPasswd);
+		if (check) {
+			client.setPasswd(newPasswd);
+			em.merge(client);
+			em.getTransaction().commit();
+		}
 		em.close();
-	}*/
+	}
 	
 	public static void createClient(Client client) {
 		EntityManager em = FactorySingleton.getInstance().createEntityManager();
@@ -216,5 +217,16 @@ public class ClientManager {
 		em.persist(client);
 		em.getTransaction().commit();
 		em.close();
+	}
+	
+	public static Client refresh(Client entity) {
+		EntityManager em = FactorySingleton.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		
+		Client client = em.find(Client.class, entity.getClientID());
+		
+		em.getTransaction().commit();
+		em.close();
+		return client;
 	}
 }

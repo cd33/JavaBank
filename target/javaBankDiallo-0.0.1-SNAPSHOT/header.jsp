@@ -17,6 +17,7 @@
 	<ul>
 		<li><a href="${pageContext.request.contextPath}/accounts"><fmt:message key="menu.label.myAccounts"/></a></li>
 		<li><a href="${pageContext.request.contextPath}/transfer"><fmt:message key="menu.label.transfers"/></a></li>
+		<li><a href="${pageContext.request.contextPath}/parameters"><fmt:message key="menu.label.parameters"/></a></li>
 		<li><a href="${pageContext.request.contextPath}/logout"><fmt:message key="menu.label.logout"/></a></li>
 		
 		<li style="float : right">
@@ -30,5 +31,5 @@
 	</ul>
 </div>
 <div class="container">
-	<p style="text-align: center; font-size: 30px;">${client.getFistname()} ${client.getName()}</p>
+	<p style="text-align: center; font-size: 30px;">${client.firstname} ${client.name}</p>
 </div>

@@ -1,17 +1,16 @@
 package fr.ynovBank.javaBankDiallo.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.ynovBank.javaBankDiallo.model.Client;
+
 public class TransferManager {
-	//private String result;
-	private Map<String, String> errors = new HashMap<String, String>();
 	
-	/*public String getResults() {
-	    return result;
-	}*/
+	private Map<String, String> errors = new HashMap<String, String>();
 	
 	public Map<String, String> getErrors() {
 	    return errors;
@@ -19,7 +18,7 @@ public class TransferManager {
 	
 	public void checkTransfer(HttpServletRequest request) {
 		String wording = request.getParameter("wording");
-		double amount = Double.parseDouble(request.getParameter("amount"));
+		String amount = request.getParameter("amount");
 		int accountSenderID = Integer.parseInt(request.getParameter("accountsFormControlSelect"));
 	    
 	    try {
@@ -33,12 +32,6 @@ public class TransferManager {
 	    } catch (Exception e) {
 	        setError("amount", e.getMessage());
 	    }
-	
-	    /*if (errors.isEmpty()) {
-	        result = "<fmt:message key='login.error.success'/>";
-	    } else {
-	        result = "<fmt:message key='login.error.fail'/>";
-	    }*/
 	}
 	
 	public void checkCreateAccount(HttpServletRequest request) {
@@ -50,36 +43,40 @@ public class TransferManager {
 	        setError("wording", e.getMessage());
 	    }
 	}
-	
+
 	private void checkWording(String wording) throws Exception {
-		if (wording == null) {
-	        throw new Exception("<fmt:message key='transfer.error.wording'/>");
+		if (wording.isEmpty()) {
+	        throw new Exception("wording");
 	    }
-	    else if (wording.trim().length()<3 || wording.trim().length()>30) {
-	    	throw new Exception("<fmt:message key='transfer.error.wording2'/>");
+	    else if (wording.length()<3 || wording.length()>30) {
+	    	throw new Exception("wording2");
 	    }
 	}
 	
-	private void checkAmount(double amount, int accountSenderID) throws Exception {
+	private void checkAmount(String amount, int accountSenderID) throws Exception {
 		double balance = ClientManager.getBalance(accountSenderID);
-	    if (amount<=0) {
-	        throw new Exception("<fmt:message key='transfer.error.amount'/>");
+		if (amount.isEmpty()) {
+	        throw new Exception("amount");
 	    }
-	    else if (balance-amount<-500) {
-			throw new Exception("<fmt:message key='transfer.error.amount2'/>");
+		Double amountDouble = Double.parseDouble(amount);
+	    if (amountDouble<=0) {
+	        throw new Exception("amount");
+	    }
+	    else if (balance-amountDouble<-500) {
+			throw new Exception("amount2");
 		}
 	}
 	
     private void setError(String field, String message) {
         errors.put(field, message);
     }
-
-    /*private static String getValueField(HttpServletRequest request, String nameField) {
-        String value = request.getParameter(nameField);
-        if (value == null || value.trim().length() == 0) {
-            return null;
-        } else {
-            return value;
-        }
-    }*/
+    
+    public static void TransferServlet(HttpServletRequest request) {
+    	List<Client> clients = ClientManager.getClients();
+		request.setAttribute("clients", clients);
+		
+		for (Client client2 : clients) {
+			client2.getAccounts();
+		}
+    }
 }

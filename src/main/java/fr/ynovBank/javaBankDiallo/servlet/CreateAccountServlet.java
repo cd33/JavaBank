@@ -41,9 +41,15 @@ public class CreateAccountServlet extends HttpServlet {
 		if (account.getErrors().isEmpty()) {
 			Client client = (Client) request.getSession().getAttribute("client");
 			ClientManager.createAccount(client.getClientID(), wording);
-			Client newclient = ClientManager.loginClient(client);
-			request.getSession().setAttribute("client", newclient);
-			response.sendRedirect(request.getContextPath()+"/accounts");
+			Client newclient;
+			try {
+				newclient = ClientManager.loginClient(client);
+				request.getSession().setAttribute("client", newclient);
+				response.sendRedirect(request.getContextPath()+"/accounts");
+			} catch (Exception e) {
+				request.setAttribute("accountFail", e.getMessage());
+				this.getServletContext().getRequestDispatcher("/createAccount.jsp").forward(request, response);
+			}
 		}
 		else {
 			this.getServletContext().getRequestDispatcher("/createAccount.jsp").forward(request, response);

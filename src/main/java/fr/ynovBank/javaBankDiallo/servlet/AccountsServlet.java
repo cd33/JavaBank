@@ -42,8 +42,8 @@ public class AccountsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Client client = (Client) request.getSession().getAttribute("client");
-		
-		request.setAttribute("client", client);
+		client = ClientManager.refresh(client);
+		request.getSession().setAttribute("client", client);
 		HashMap<Integer, Double> balanceAccount = new HashMap<Integer, Double>();
 		
 		if (client.getAccounts()!=null) {

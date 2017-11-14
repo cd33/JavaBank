@@ -36,7 +36,6 @@ public class TransactionServlet extends HttpServlet {
 		int index = Integer.parseInt(url);*/
 		
 		Client client = (Client) request.getSession().getAttribute("client");
-		request.setAttribute("client", client);
 		List<Account> listeComptes = client.getAccounts();
 		Account account = listeComptes.get(index);
 		request.setAttribute("account", account);
